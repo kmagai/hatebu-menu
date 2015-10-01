@@ -1,0 +1,4 @@
+export const FETCH_WEATHER = 'FETCH_WEATHER';
+export const ADD_ANTENNA = 'ADD_ANTENNA';
+export const DELETE_ANTENNA = 'DELETE_ANTENNA';
+export const TOGGLE_NOTIFIER = 'TOGGLE_NOTIFIER';

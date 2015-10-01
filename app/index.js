@@ -4,7 +4,6 @@ import Path from 'path'
 import Shell from 'shell'
 import _ from 'lodash'
 import BrowserWindow from 'browser-window'
-import WeatherManager from './server/weather_manager'
 import Config from './model/config'
 
 // Should config be global variable?

@@ -1,0 +1,11 @@
+export const FEED_API = 'https://ajax.googleapis.com/ajax/services/feed/load?v=2.0&q=';
+export const CATEGORY_ALL_URL = 'http://feeds.feedburner.com/hatena/b/hotentry';
+export const CATEGORY_GENERAL_URL = 'http://b.hatena.ne.jp/hotentry.rss?mode=general';
+export const CATEGORY_SOCIAL_URL = 'http://b.hatena.ne.jp/hotentry/social.rss';
+export const CATEGORY_ECONOMICS_URL = 'http://b.hatena.ne.jp/hotentry/economics.rss';
+export const CATEGORY_LIFE_URL = 'http://b.hatena.ne.jp/hotentry/life.rss';
+export const CATEGORY_ENTERTAINMENT_URL = 'http://b.hatena.ne.jp/hotentry/entertainment.rss';
+export const CATEGORY_KNOWLEDGE_URL = 'http://b.hatena.ne.jp/hotentry/knowledge.rss';
+export const CATEGORY_IT_URL = 'http://b.hatena.ne.jp/hotentry/it.rss';
+export const CATEGORY_GAME_URL = 'http://b.hatena.ne.jp/hotentry/game.rss';
+export const CATEGORY_FUN_URL = 'http://b.hatena.ne.jp/hotentry/fun.rss';

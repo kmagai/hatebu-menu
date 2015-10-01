@@ -1,21 +1,21 @@
 import React from 'react'
-import Weather from './weather.js'
+import Category from './category.js'
 import _ from 'lodash'
 
-export default class WeatherList extends React.Component {
+export default class Category extends React.Component {
 
   render () {
   var onUrlClick = this.props.onUrlClick
-    var weatherNodes = _.map(this.props.weathers, function (weather, index) {
+    var categoryNodes = _.map(this.props.categories, function (category, index) {
       return (
-        <li key={index} className='table-view-cell weather'>
-          <Weather weather={weather}  className='clickable' onUrlClick={onUrlClick}/>
+        <li key={index} className='table-view-cell category'>
+          <Category category={category}  className='clickable' onUrlClick={onUrlClick}/>
         </li>
       )
     })
     return (
       <ul className='content table-view'>
-        {weatherNodes}
+        {categoryNodes}
       </ul>
     )
   }

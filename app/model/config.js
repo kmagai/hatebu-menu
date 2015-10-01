@@ -20,9 +20,10 @@ export default class Config {
     return JSON.parse(fs.readFileSync(this.path, {encoding: 'utf8'}))
   }
   
+  //just like {general: [{title: '', star:'', read:''} ]....}
   private get_default () {
     return {
-      cities: ['Tokyo']
+      general: []
     }
   }
   

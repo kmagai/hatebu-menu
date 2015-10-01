@@ -1,5 +1,5 @@
 import React from 'react'
-import WeatherBox from './weather_box.js'
+import CategoryTab from './category_tab.js'
 
 // introducing redux
 import { Provider } from 'react-redux';
@@ -13,7 +13,7 @@ const store = configureStore();
 
 React.render(
   <Provider store={store}>
-    {() => <WeatherBox />}
+    {() => <CategoryTab />}
   </Provider>,
   document.getElementById('container')
 )

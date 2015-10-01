@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default class Weather extends React.Component {
+export default class Entry extends React.Component {
   getNotification() {
     
   }
@@ -11,15 +11,15 @@ export default class Weather extends React.Component {
   
   openDetail (e) {
     e.preventDefault()
-    this.openUrl(this.props.weather.detail_url)
+    this.openUrl(this.props.entry.detail_url)
   }
   
   render() {
     return (
       <ul className='cell' onClick={this.openDetail.bind(this)}>
-        <li>Time: {this.props.weather.time}</li>
-        <li>Place: {this.props.weather.place}</li>
-        <li>Condition: {this.props.weather.condition}</li>
+        <li>Time: {this.props.entry.time}</li>
+        <li>Place: {this.props.entry.place}</li>
+        <li>Condition: {this.props.entry.condition}</li>
       </ul>
     )
   }

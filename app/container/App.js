@@ -13,6 +13,9 @@ class App extends Component {
 
   componentDidMount() {
     const { dispatch, selectedReddit } = this.props;
+    console.log("===store======");
+    console.log(JSON.stringify(this.props.dispatch));
+    console.log("=========");
     console.log("=========");
     console.log(JSON.stringify(this.props));
     console.log(JSON.stringify(dispatch));

@@ -1,14 +1,17 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import rootReducer from '../reducers';
-import thunk from 'redux-thunk'
-import createLogger from 'redux-logger'
+import thunkMiddleware from 'redux-thunk'
+import loggerMiddleware from 'redux-logger';
 
 const createStoreWithMiddleware = applyMiddleware(
-  thunk,
-  createLogger
+  thunkMiddleware,
+  loggerMiddleware
 )(createStore);
 
 export default function configureStore(initialState) {
+  console.log("=========dasdsadas======================");
+  console.log(rootReducer);
+  console.log("=========dasdsadas======================");
   const store = createStoreWithMiddleware(rootReducer, initialState);
 
   if (module.hot) {

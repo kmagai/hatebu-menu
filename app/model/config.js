@@ -13,17 +13,17 @@ export default class Config {
   
   load () {
     // TODO: check if it works and/or find better way to handle it
-    return read_file() ? read_file() : get_default()
+    return _read_file() ? _read_file() : _get_default()
   }
   
-  private read_file () {
+  _read_file () {
     return JSON.parse(fs.readFileSync(this.path, {encoding: 'utf8'}))
   }
   
   //just like {general: [{title: '', star:'', read:''} ]....}
-  private get_default () {
+  _get_default () {
     return {
-      general: []
+      hatebu: []
     }
   }
   

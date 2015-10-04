@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { selectReddit, fetchPostsIfNeeded, invalidateReddit } from '../actions';
+import { selectReddit, fetchPostsIfNeeded, invalidateReddit, openLink } from '../actions';
 import Picker from '../components/Picker';
 import Posts from '../components/Posts';
 
@@ -9,17 +9,11 @@ class App extends Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleRefreshClick = this.handleRefreshClick.bind(this);
+    this.handleUrlClick = this.handleUrlClick.bind(this);
   }
 
   componentDidMount() {
     const { dispatch, selectedReddit } = this.props;
-    console.log("===store======");
-    console.log(JSON.stringify(this.props.dispatch));
-    console.log("=========");
-    console.log("=========");
-    console.log(JSON.stringify(this.props));
-    console.log(JSON.stringify(dispatch));
-    console.log("=========");
     dispatch(fetchPostsIfNeeded(selectedReddit));
   }
 
@@ -31,10 +25,6 @@ class App extends Component {
   }
 
   handleChange(nextReddit) {
-    console.log('-------------------');
-    console.log(JSON.stringify(this.props.dispatch));
-    console.log(JSON.stringify(this.props));
-    console.log('-------------------');
     this.props.dispatch(selectReddit(nextReddit));
   }
 
@@ -44,6 +34,12 @@ class App extends Component {
     const { dispatch, selectedReddit } = this.props;
     dispatch(invalidateReddit(selectedReddit));
     dispatch(fetchPostsIfNeeded(selectedReddit));
+  }
+
+  handleUrlClick(e, selectedUrl) {
+    e.preventDefault();
+    const { dispatch } = this.props;
+    dispatch(openLink(selectedUrl));
   }
 
   render() {
@@ -74,7 +70,8 @@ class App extends Component {
         }
         {posts.length > 0 &&
           <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-            <Posts posts={posts} />
+            <Posts posts={posts}
+              onClick={this.handleUrlClick} />
           </div>
         }
       </div>

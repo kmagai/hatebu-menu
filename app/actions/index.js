@@ -1,32 +1,41 @@
 import fetch from 'isomorphic-fetch';
-import * as types from '../constants/ActionTypes';
+import Shell from 'shell';
+import {
+  SELECT_REDDIT, INVALIDATE_REDDIT,
+  REQUEST_POSTS, RECEIVE_POSTS
+} from '../constants/ActionTypes';
+import {
+  FEED_API, CATEGORY_ALL_URL, CATEGORY_GENERAL_URL, CATEGORY_SOCIAL_URL, CATEGORY_ECONOMICS_URL, CATEGORY_LIFE_URL,
+  CATEGORY_ENTERTAINMENT_URL, CATEGORY_KNOWLEDGE_URL, CATEGORY_IT_URL, CATEGORY_GAME_URL, CATEGORY_FUN_URL
+} from '../constants/APIUrls';
+
 
 export function selectReddit(reddit) {
   return {
-    type: types.SELECT_REDDIT,
+    type: SELECT_REDDIT,
     reddit
   };
 }
 
 export function invalidateReddit(reddit) {
   return {
-    type: types.INVALIDATE_REDDIT,
+    type: INVALIDATE_REDDIT,
     reddit
   };
 }
 
 function requestPosts(reddit) {
   return {
-    type: types.REQUEST_POSTS,
+    type: REQUEST_POSTS,
     reddit
   };
 }
 
 function receivePosts(reddit, json) {
   return {
-    type: types.RECEIVE_POSTS,
+    type: RECEIVE_POSTS,
     reddit: reddit,
-    posts: json.data.children.map(child => child.data),
+    posts: json.responseData.feed.entries,
     receivedAt: Date.now()
   };
 }
@@ -34,7 +43,9 @@ function receivePosts(reddit, json) {
 function fetchPosts(reddit) {
   return dispatch => {
     dispatch(requestPosts(reddit));
-    return fetch(`http://www.reddit.com/r/${reddit}.json`)
+    let SELECTED_API = CATEGORY_ALL_URL;
+    console.log(`${FEED_API}${SELECTED_API}`);
+    return fetch(`${FEED_API}${SELECTED_API}`)
       .then(response => response.json())
       .then(json => dispatch(receivePosts(reddit, json)));
   };
@@ -57,4 +68,11 @@ export function fetchPostsIfNeeded(reddit) {
       return dispatch(fetchPosts(reddit));
     }
   };
+}
+
+export function openLink(url) {
+  return (dispatch) => {
+    Shell.openExternal(url)
+    return;
+  }
 }

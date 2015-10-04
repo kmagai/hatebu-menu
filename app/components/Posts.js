@@ -1,11 +1,13 @@
 import React, { PropTypes, Component } from 'react';
 
 export default class Posts extends Component {
-  render() {
+  render () {
+    const { posts, onClick } = this.props;
+    
     return (
       <ul>
         {this.props.posts.map((post, i) =>
-          <li key={i}><a href={post.url}>{post.title}</a></li>
+          <li key={i}><a href="#" onClick={e => onClick(e, post.link)}>{post.title}</a></li>
         )}
       </ul>
     );
@@ -13,5 +15,6 @@ export default class Posts extends Component {
 }
 
 Posts.propTypes = {
-  posts: PropTypes.array.isRequired
+  posts: PropTypes.array.isRequired,
+  onClick: PropTypes.func.isRequired
 };

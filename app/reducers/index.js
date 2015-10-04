@@ -1,8 +1,3 @@
-import {
-  FEED_API, CATEGORY_ALL_URL, CATEGORY_GENERAL_URL, CATEGORY_SOCIAL_URL, CATEGORY_ECONOMICS_URL, CATEGORY_LIFE_URL,
-  CATEGORY_ENTERTAINMENT_URL, CATEGORY_KNOWLEDGE_URL, CATEGORY_IT_URL, CATEGORY_GAME_URL, CATEGORY_FUN_URL
-} from '../constants/APIUrls';
-
 import { combineReducers } from 'redux';
 import {
   SELECT_REDDIT, INVALIDATE_REDDIT,
@@ -10,7 +5,6 @@ import {
 } from '../constants/ActionTypes';
 
 function selectedReddit(state = 'reactjs', action) {
-  console.log(JSON.stringify(action));
   switch (action.type) {
   case SELECT_REDDIT:
     return action.reddit;
@@ -47,7 +41,6 @@ function posts(state = {
 }
 
 function postsByReddit(state = { }, action) {
-  console.log(JSON.stringify(action));
   switch (action.type) {
   case INVALIDATE_REDDIT:
   case RECEIVE_POSTS:

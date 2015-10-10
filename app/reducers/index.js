@@ -1,13 +1,13 @@
 import { combineReducers } from 'redux';
 import {
-  SELECT_REDDIT, INVALIDATE_REDDIT,
+  SELECT_CATEGORY, INVALIDATE_HATEBU,
   REQUEST_POSTS, RECEIVE_POSTS
 } from '../constants/ActionTypes';
 
-function selectedReddit(state = 'reactjs', action) {
+function selectedCategory(state = 'ALL', action) {
   switch (action.type) {
-  case SELECT_REDDIT:
-    return action.reddit;
+  case SELECT_CATEGORY:
+    return action.category;
   default:
     return state;
   }
@@ -19,7 +19,7 @@ function posts(state = {
   items: []
 }, action) {
   switch (action.type) {
-  case INVALIDATE_REDDIT:
+  case INVALIDATE_HATEBU:
     return Object.assign({}, state, {
       didInvalidate: true
     });
@@ -29,6 +29,9 @@ function posts(state = {
       didInvalidate: false
     });
   case RECEIVE_POSTS:
+    console.log("============receive_posts==============");
+    console.log(action.posts);
+    console.log("============receive_posts==============");
     return Object.assign({}, state, {
       isFetching: false,
       didInvalidate: false,
@@ -40,13 +43,20 @@ function posts(state = {
   }
 }
 
-function postsByReddit(state = { }, action) {
+function postsByHatebu(state = { }, action) {
   switch (action.type) {
-  case INVALIDATE_REDDIT:
+  case INVALIDATE_HATEBU:
   case RECEIVE_POSTS:
   case REQUEST_POSTS:
+    console.log("============postsByHatebu==============");
+    console.log(
+        Object.assign({}, state, {
+          [action.category]: posts(state[action.hatebu], action)
+        }));
+    console.log("============postsByHatebu==============");
+        
     return Object.assign({}, state, {
-      [action.reddit]: posts(state[action.reddit], action)
+      [action.category]: posts(state[action.hatebu], action)
     });
   default:
     return state;
@@ -54,8 +64,8 @@ function postsByReddit(state = { }, action) {
 }
 
 const rootReducer = combineReducers({
-  postsByReddit,
-  selectedReddit
+  postsByHatebu,
+  selectedCategory
 });
 
 export default rootReducer;

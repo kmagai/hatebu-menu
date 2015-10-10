@@ -1,58 +1,56 @@
 import fetch from 'isomorphic-fetch';
 import Shell from 'shell';
 import {
-  SELECT_REDDIT, INVALIDATE_REDDIT,
+  SELECT_CATEGORY, INVALIDATE_HATEBU,
   REQUEST_POSTS, RECEIVE_POSTS
 } from '../constants/ActionTypes';
-import {
-  FEED_API, CATEGORY_ALL_URL, CATEGORY_GENERAL_URL, CATEGORY_SOCIAL_URL, CATEGORY_ECONOMICS_URL, CATEGORY_LIFE_URL,
-  CATEGORY_ENTERTAINMENT_URL, CATEGORY_KNOWLEDGE_URL, CATEGORY_IT_URL, CATEGORY_GAME_URL, CATEGORY_FUN_URL
-} from '../constants/APIUrls';
+import {URLS} from '../constants/Categories';
+import {FEED_API} from '../constants/APIs';
 
-
-export function selectReddit(reddit) {
+export function selectCategory(category) {
   return {
-    type: SELECT_REDDIT,
-    reddit
+    type: SELECT_CATEGORY,
+    category
   };
 }
 
-export function invalidateReddit(reddit) {
+export function invalidateHatebu(hatebu) {
   return {
-    type: INVALIDATE_REDDIT,
-    reddit
+    type: INVALIDATE_HATEBU,
+    hatebu
   };
 }
 
-function requestPosts(reddit) {
+function requestPosts(hatebu) {
   return {
     type: REQUEST_POSTS,
-    reddit
+    hatebu
   };
 }
 
-function receivePosts(reddit, json) {
+function receivePosts(category, json) {
   return {
     type: RECEIVE_POSTS,
-    reddit: reddit,
+    category: category,
     posts: json.responseData.feed.entries,
     receivedAt: Date.now()
   };
 }
 
-function fetchPosts(reddit) {
+function fetchPosts(category) {
   return dispatch => {
-    dispatch(requestPosts(reddit));
-    let SELECTED_API = CATEGORY_ALL_URL;
-    console.log(`${FEED_API}${SELECTED_API}`);
-    return fetch(`${FEED_API}${SELECTED_API}`)
+    dispatch(requestPosts(category));
+    let SELECTED_API = URLS[category];
+    let FEED_URL = `${FEED_API}${SELECTED_API}`;
+    
+    return fetch(FEED_URL)
       .then(response => response.json())
-      .then(json => dispatch(receivePosts(reddit, json)));
+      .then(json => dispatch(receivePosts(category, json)));
   };
 }
 
-function shouldFetchPosts(state, reddit) {
-  const posts = state.postsByReddit[reddit];
+function shouldFetchPosts(state, category) {
+  const posts = state.postsByHatebu[category];
   if (!posts) {
     return true;
   }
@@ -62,10 +60,10 @@ function shouldFetchPosts(state, reddit) {
   return posts.didInvalidate;
 }
 
-export function fetchPostsIfNeeded(reddit) {
+export function fetchPostsIfNeeded(category) {
   return (dispatch, getState) => {
-    if (shouldFetchPosts(getState(), reddit)) {
-      return dispatch(fetchPosts(reddit));
+    if (shouldFetchPosts(getState(), category)) {
+      return dispatch(fetchPosts(category));
     }
   };
 }

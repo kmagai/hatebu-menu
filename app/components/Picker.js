@@ -9,19 +9,19 @@ export default class Picker extends Component {
         <h1>{value}</h1>
         <select onChange={e => onChange(e.target.value)}
                 value={value}>
-          {options.map(option =>
-            <option value={option} key={option}>
-              {option}
+          {Object.keys(options).map(type =>
+            <option value={type} key={type}>
+            {options[type]}
             </option>)
           }
         </select>
       </span>
-    );
+              );
   }
 }
 
 Picker.propTypes = {
-  options: PropTypes.arrayOf(
+  options: PropTypes.objectOf(
     PropTypes.string.isRequired
   ).isRequired,
   value: PropTypes.string.isRequired,

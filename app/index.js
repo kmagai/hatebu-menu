@@ -43,7 +43,6 @@ menu.on('ready', function() {
   //   weatherManager.fetch(app_config.cities, function (err, weathers) {
   //     if (err) {
   //       // TODO: need logger
-  //       console.log(`weather-manager-fetch-error: ${err.message}`)
   //       return next(err, null)
   //     }
   //   })

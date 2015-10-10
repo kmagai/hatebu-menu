@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { selectReddit, fetchPostsIfNeeded, invalidateReddit, openLink } from '../actions';
+import { selectCategory, fetchPostsIfNeeded, invalidateHatebu, openLink } from '../actions';
 import Picker from '../components/Picker';
 import Posts from '../components/Posts';
+import * as categories from '../constants/Categories';
+import {CATEGORIES} from '../constants/Categories';
 
 class App extends Component {
   constructor(props) {
@@ -13,27 +15,27 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const { dispatch, selectedReddit } = this.props;
-    dispatch(fetchPostsIfNeeded(selectedReddit));
+    const { dispatch, selectedCategory } = this.props;
+    dispatch(fetchPostsIfNeeded(selectedCategory));
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedReddit !== this.props.selectedReddit) {
-      const { dispatch, selectedReddit } = nextProps;
-      dispatch(fetchPostsIfNeeded(selectedReddit));
+    if (nextProps.selectedCategory !== this.props.selectedCategory) {
+      const { dispatch, selectedCategory } = nextProps;
+      dispatch(fetchPostsIfNeeded(selectedCategory));
     }
   }
 
-  handleChange(nextReddit) {
-    this.props.dispatch(selectReddit(nextReddit));
+  handleChange(nextCategory) {
+    this.props.dispatch(selectCategory(nextCategory));
   }
 
   handleRefreshClick(e) {
     e.preventDefault();
 
-    const { dispatch, selectedReddit } = this.props;
-    dispatch(invalidateReddit(selectedReddit));
-    dispatch(fetchPostsIfNeeded(selectedReddit));
+    const { dispatch, selectedCategory } = this.props;
+    dispatch(invalidateHatebu(selectedCategory));
+    dispatch(fetchPostsIfNeeded(selectedCategory));
   }
 
   handleUrlClick(e, selectedUrl) {
@@ -43,13 +45,13 @@ class App extends Component {
   }
 
   render() {
-    const { selectedReddit, posts, isFetching, lastUpdated } = this.props;
+    const { selectedCategory, posts, isFetching, lastUpdated } = this.props;
     return (
       <div>
-        <Picker value={selectedReddit}
+        <Picker value={selectedCategory}
                 onChange={this.handleChange}
-                options={['reactjs', 'frontend']} />
-        <p>
+                options = {CATEGORIES} />
+          <p>
           {lastUpdated &&
             <span>
               Last updated at {new Date(lastUpdated).toLocaleTimeString()}
@@ -80,7 +82,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  selectedReddit: PropTypes.string.isRequired,
+  selectedCategory: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
   lastUpdated: PropTypes.number,
@@ -88,18 +90,18 @@ App.propTypes = {
 };
 
 function mapStateToProps(state) {
-  const { selectedReddit, postsByReddit } = state;
+  const { selectedCategory, postsByHatebu } = state;
   const {
     isFetching,
     lastUpdated,
     items: posts
-  } = postsByReddit[selectedReddit] || {
+  } = postsByHatebu[selectedCategory] || {
     isFetching: true,
     items: []
   };
 
   return {
-    selectedReddit,
+    selectedCategory,
     posts,
     isFetching,
     lastUpdated

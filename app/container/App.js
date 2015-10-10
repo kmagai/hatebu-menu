@@ -65,7 +65,10 @@ class App extends Component {
           }
         </p>
         {isFetching && posts.length === 0 &&
-          <h2>Loading...</h2>
+          <div className="spinner">
+            <div className="dot1"></div>
+            <div className="dot2"></div>
+          </div>
         }
         {!isFetching && posts.length === 0 &&
           <h2>Empty.</h2>

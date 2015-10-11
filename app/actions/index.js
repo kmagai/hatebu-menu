@@ -3,7 +3,7 @@ import Shell from 'shell';
 import _ from 'lodash';
 import {
   SELECT_CATEGORY, INVALIDATE_HATEBU,
-  REQUEST_POSTS, RECEIVE_POSTS, RECEIVE_STARS
+  REQUEST_POSTS, RECEIVE_POSTS 
 } from '../constants/ActionTypes';
 import {URLS} from '../constants/Categories';
 import {FEED_API} from '../constants/APIs';
@@ -38,13 +38,6 @@ function receivePosts(category, entries) {
   };
 }
 
-function receiveStars(stars) {
-  return {
-    type: RECEIVE_STARS,
-    stars: stars,
-  };
-}
-
 function fetchPosts(category) {
   return dispatch => {
     dispatch(requestPosts(category));
@@ -56,12 +49,16 @@ function fetchPosts(category) {
       // .then(json => dispatch(merge_stars(category, json)));
       .then(json => {
         let entries = json.responseData.feed.entries;
-        dispatch(receivePosts(category, entries));
-        entries.forEach(entry => {
-          fetch_star(entry).then(stars => {
-            dispatch(receiveStars(stars));
-          })
-        })
+        var updated_entries;
+        return Promise.all(
+          _.map(entries, fetch_star)
+        );
+      })
+      .then(merged_entries => {
+        console.log('------entries----------');
+        console.log(JSON.stringify(merged_entries));
+        console.log('---------entries-------');
+        dispatch(receivePosts(category, merged_entries));
       })
   };
 }
@@ -77,10 +74,10 @@ function fetch_star(entry) {
       return response.json();
     })
     .then(star => {
-      console.log('=========');
-      // console.log(JSON.stringify(entry));
-      // console.log(star);
-      star != undefined ? resolve([entry.link, star]) : reject(new Error("Bad response from server")) ;
+      console.log('----------------------');
+      console.log(JSON.stringify(star));
+      console.log('----------------------');
+      star != undefined ? resolve(Object.assign(entry, {'star': star})) : reject(new Error("Bad response from server")) ;
     })
   });
 }

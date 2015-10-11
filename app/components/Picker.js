@@ -20,8 +20,7 @@ export default class Picker extends Component {
   // </a>
         
     return (
-      <span>
-        <h1>{value}</h1>
+      <header className='bar bar-nav'>
         <div className="segmented-control">
           {navNodes}
         </div>
@@ -33,7 +32,7 @@ export default class Picker extends Component {
             </option>)
           }
         </select>
-      </span>
+      </header>
               );
   }
 }

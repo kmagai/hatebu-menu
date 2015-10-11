@@ -8,10 +8,11 @@ export default class Posts extends Component {
       <ul className="content table-view">
         {this.props.posts.map((post, i) =>
           <li className="table-view-cell" key = {i}>
-            <a href="#" onClick={e => onClick(e, post.link)}>
+            <a href="#" className="clickable" onClick={e => onClick(e, post.link)}>
               {post.title}
               <span className="badge">{post.star}</span>
             </a>
+            <span>{post.host}</span>
           </li>
         )}
       </ul>

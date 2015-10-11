@@ -1,6 +1,7 @@
 import fetch from 'isomorphic-fetch';
 import Shell from 'shell';
 import _ from 'lodash';
+import URL from 'url';
 import {
   SELECT_CATEGORY, INVALIDATE_HATEBU,
   REQUEST_POSTS, RECEIVE_POSTS 
@@ -49,9 +50,9 @@ function fetchPosts(category) {
       // .then(json => dispatch(merge_stars(category, json)));
       .then(json => {
         let entries = json.responseData.feed.entries;
-        var updated_entries;
+        _.map(entries, addHost);
         return Promise.all(
-          _.map(entries, fetch_star)
+          _.map(entries, fetchStar)
         );
       })
       .then(merged_entries => {
@@ -63,7 +64,11 @@ function fetchPosts(category) {
   };
 }
 
-function fetch_star(entry) {
+function addHost(entry) {
+  Object.assign(entry, {'host': URL.parse(entry.link).hostname});
+}
+
+function fetchStar(entry) {
   return new Promise(function(resolve, reject){
     fetch(`http://api.b.st-hatena.com/entry.count?url=${entry['link']}`)
     .then(response => {
@@ -80,22 +85,6 @@ function fetch_star(entry) {
       star != undefined ? resolve(Object.assign(entry, {'star': star})) : reject(new Error("Bad response from server")) ;
     })
   });
-}
-
-function get_stars(entries) {
-  var updated_entries = [];
-  return Promise.all(
-    entries.forEach(entry => {
-      fetch_star(entry)
-      // return get_stars(entry).then(v => {
-      //   updated_entries.push(Object.assign(v[0], {
-      //     'star': v[1]
-      //   }));
-      // }).catch(function onRejected(error) {
-      //     console.error(error);
-      // });
-    })
-  );
 }
 
 function shouldFetchPosts(state, category) {

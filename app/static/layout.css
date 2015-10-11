@@ -8,6 +8,14 @@
   font-size: 12px;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
+.clickable:hover {
+  color: #00A4DE !important;
+}
+
 /*.bar .segmented-control {
   background: transparent;
   border: 0;

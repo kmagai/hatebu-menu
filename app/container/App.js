@@ -5,12 +5,15 @@ import Picker from '../components/Picker';
 import Posts from '../components/Posts';
 import * as categories from '../constants/Categories';
 import {CATEGORIES} from '../constants/Categories';
+import URL from 'url';
+
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleUrlClick = this.handleUrlClick.bind(this);
+    this.handleStarClick = this.handleStarClick.bind(this);
   }
 
   componentDidMount() {
@@ -36,6 +39,14 @@ class App extends Component {
     dispatch(openLink(selectedUrl));
   }
 
+  handleStarClick(e, selectedUrl) {
+    e.preventDefault();
+    let bookmarkCommentURL = `http://b.hatena.ne.jp/entry/${URL.parse(selectedUrl).hostname}${URL.parse(selectedUrl).pathname}`;
+    console.log(bookmarkCommentURL);
+    const { dispatch } = this.props;
+    dispatch(openLink(bookmarkCommentURL));
+  }
+
   render() {
     const { selectedCategory, posts, isFetching } = this.props;
     return (
@@ -57,7 +68,8 @@ class App extends Component {
         {posts.length > 0 &&
           <div style={{ opacity: isFetching ? 0.5 : 1 }}>
             <Posts posts={posts}
-              onClick={this.handleUrlClick} />
+              onClick={this.handleUrlClick}
+              onClickStar={this.handleStarClick} />
           </div>
         }
       </div>

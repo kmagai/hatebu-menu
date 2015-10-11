@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 
 export default class Posts extends Component {
   render () {
-    const { posts, onClick } = this.props;
+    const { posts, onClick, onClickStar } = this.props;
     
     return (
       <ul className="content table-view">
@@ -10,9 +10,11 @@ export default class Posts extends Component {
           <li className="table-view-cell" key = {i}>
             <a href="#" className="clickable" onClick={e => onClick(e, post.link)}>
               {post.title}
+            </a>
+            <a href="#" className="clickable" onClick={e => onClickStar(e, post.link)}>
               <span className="badge">{post.star}</span>
             </a>
-            <span>{post.host}</span>
+            <span className="hostname">{post.host}</span>
           </li>
         )}
       </ul>
@@ -22,5 +24,6 @@ export default class Posts extends Component {
 
 Posts.propTypes = {
   posts: PropTypes.array.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  onClickStar: PropTypes.func.isRequired,
 };

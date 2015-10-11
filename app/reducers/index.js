@@ -4,7 +4,7 @@ import {
   REQUEST_POSTS, RECEIVE_POSTS 
 } from '../constants/ActionTypes';
 
-function selectedCategory(state = 'ALL', action) {
+function selectedCategory(state = 'GENERAL', action) {
   switch (action.type) {
   case SELECT_CATEGORY:
     return action.category;

@@ -26,7 +26,8 @@ class App extends Component {
     }
   }
 
-  handleChange(nextCategory) {
+  handleChange(e, nextCategory) {
+    e.preventDefault();
     this.props.dispatch(selectCategory(nextCategory));
   }
 
@@ -49,7 +50,7 @@ class App extends Component {
     return (
       <div>
         <Picker value={selectedCategory}
-                onChange={this.handleChange}
+                onClick={this.handleChange}
                 options = {CATEGORIES} />
           <p>
           {!isFetching &&

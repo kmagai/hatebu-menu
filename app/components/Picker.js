@@ -1,38 +1,27 @@
 import React, { Component, PropTypes } from 'react';
+import {ICONS} from '../constants/Categories';
+import FontAwesome from 'react-fontawesome';
 
 export default class Picker extends Component {
   render () {
-    const { value, onChange, options } = this.props;
+    const { value, onClick, options } = this.props;
     
     
     // let class = 
-    let navNodes = Object.keys(options).map(type =>
-      // if (this.state.selected === selection) {
-      //   className = className + ' active'
-      // }
-        <a className="control-item active" href="#item1mobile">{options[type]}</a>
+    let navNodes = Object.keys(options).map(type => {
+      var controlItemClass = 'control-item';
+      if (type === value) {
+        controlItemClass = controlItemClass + ' active'
+      }
+      // <span>{options[type]}</span>
+      var iconTab = (<FontAwesome name={ICONS[type]} />);
+      return (<a className={controlItemClass} href="#item1mobile" onClick={e => onClick(e, type)}>{iconTab}</a>);
+      }
     );
-  // <a class="control-item" href="#item2mobile">
-  //   Thing two
-  // </a>
-  // <a class="control-item" href="#item3mobile">
-  //   Thing three
-  // </a>
-        
     return (
-      <header className='bar bar-nav'>
         <div className="segmented-control">
           {navNodes}
         </div>
-        <select onChange={e => onChange(e.target.value)}
-                value={value}>
-          {Object.keys(options).map(type =>
-            <option value={type} key={type}>
-            {options[type]}
-            </option>)
-          }
-        </select>
-      </header>
               );
   }
 }
@@ -42,5 +31,5 @@ Picker.propTypes = {
     PropTypes.string.isRequired
   ).isRequired,
   value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired
 };

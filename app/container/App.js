@@ -10,7 +10,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
-    this.handleRefreshClick = this.handleRefreshClick.bind(this);
     this.handleUrlClick = this.handleUrlClick.bind(this);
   }
 
@@ -31,14 +30,6 @@ class App extends Component {
     this.props.dispatch(selectCategory(nextCategory));
   }
 
-  handleRefreshClick(e) {
-    e.preventDefault();
-
-    const { dispatch, selectedCategory } = this.props;
-    dispatch(invalidateHatebu(selectedCategory));
-    dispatch(fetchPostsIfNeeded(selectedCategory));
-  }
-
   handleUrlClick(e, selectedUrl) {
     e.preventDefault();
     const { dispatch } = this.props;
@@ -53,12 +44,6 @@ class App extends Component {
                 onClick={this.handleChange}
                 options = {CATEGORIES} />
           <p>
-          {!isFetching &&
-            <a href="#"
-               onClick={this.handleRefreshClick}>
-              Refresh
-            </a>
-          }
         </p>
         {isFetching && posts.length === 0 &&
           <div className="spinner">

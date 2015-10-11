@@ -29,14 +29,10 @@ function posts(state = {
       didInvalidate: false
     });
   case RECEIVE_POSTS:
-    console.log("============receive_posts==============");
-    console.log(action.posts);
-    console.log("============receive_posts==============");
     return Object.assign({}, state, {
       isFetching: false,
       didInvalidate: false,
       items: action.posts,
-      lastUpdated: action.receivedAt
     });
   default:
     return state;
@@ -48,13 +44,6 @@ function postsByHatebu(state = { }, action) {
   case INVALIDATE_HATEBU:
   case RECEIVE_POSTS:
   case REQUEST_POSTS:
-    console.log("============postsByHatebu==============");
-    console.log(
-        Object.assign({}, state, {
-          [action.category]: posts(state[action.hatebu], action)
-        }));
-    console.log("============postsByHatebu==============");
-        
     return Object.assign({}, state, {
       [action.category]: posts(state[action.hatebu], action)
     });

@@ -45,18 +45,13 @@ class App extends Component {
   }
 
   render() {
-    const { selectedCategory, posts, isFetching, lastUpdated } = this.props;
+    const { selectedCategory, posts, isFetching } = this.props;
     return (
       <div>
         <Picker value={selectedCategory}
                 onChange={this.handleChange}
                 options = {CATEGORIES} />
           <p>
-          {lastUpdated &&
-            <span>
-              Last updated at {new Date(lastUpdated).toLocaleTimeString()}
-            </span>
-          }
           {!isFetching &&
             <a href="#"
                onClick={this.handleRefreshClick}>
@@ -88,7 +83,6 @@ App.propTypes = {
   selectedCategory: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
-  lastUpdated: PropTypes.number,
   dispatch: PropTypes.func.isRequired
 };
 
@@ -96,7 +90,6 @@ function mapStateToProps(state) {
   const { selectedCategory, postsByHatebu } = state;
   const {
     isFetching,
-    lastUpdated,
     items: posts
   } = postsByHatebu[selectedCategory] || {
     isFetching: true,
@@ -107,7 +100,6 @@ function mapStateToProps(state) {
     selectedCategory,
     posts,
     isFetching,
-    lastUpdated
   };
 }
 

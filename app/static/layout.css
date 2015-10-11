@@ -1,3 +1,21 @@
+.content {
+  background: white;
+  margin-top: 27px !important;
+}
+
+.bar {
+  color: #979797;
+  font-size: 12px;
+}
+
+/*.bar .segmented-control {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  top: auto;
+}*/
+
+/* spinner */
 .spinner {
   margin: 100px auto;
   width: 40px;

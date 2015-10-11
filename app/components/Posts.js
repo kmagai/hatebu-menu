@@ -5,7 +5,7 @@ export default class Posts extends Component {
     const { posts, onClick } = this.props;
     
     return (
-      <ul>
+      <ul className="content table-view">
         {this.props.posts.map((post, i) =>
           <li className="table-view-cell" key = {i}>
             <a href="#" onClick={e => onClick(e, post.link)}>

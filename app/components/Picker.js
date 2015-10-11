@@ -19,10 +19,12 @@ export default class Picker extends Component {
       }
     );
     return (
+      // <header className='bar bar-nav'>
         <div className="segmented-control">
           {navNodes}
         </div>
-              );
+      // </header>
+    );
   }
 }
 

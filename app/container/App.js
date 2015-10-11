@@ -82,6 +82,7 @@ class App extends Component {
 App.propTypes = {
   selectedCategory: PropTypes.string.isRequired,
   posts: PropTypes.array.isRequired,
+  stars: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
   dispatch: PropTypes.func.isRequired
 };
@@ -90,10 +91,12 @@ function mapStateToProps(state) {
   const { selectedCategory, postsByHatebu } = state;
   const {
     isFetching,
-    items: posts
+    items: posts,
+    stars: stars
   } = postsByHatebu[selectedCategory] || {
     isFetching: true,
-    items: []
+    items: [],
+    stars: []
   };
 
   return {

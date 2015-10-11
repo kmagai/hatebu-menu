@@ -1,8 +1,9 @@
 import fetch from 'isomorphic-fetch';
 import Shell from 'shell';
+import _ from 'lodash';
 import {
   SELECT_CATEGORY, INVALIDATE_HATEBU,
-  REQUEST_POSTS, RECEIVE_POSTS
+  REQUEST_POSTS, RECEIVE_POSTS, RECEIVE_STARS
 } from '../constants/ActionTypes';
 import {URLS} from '../constants/Categories';
 import {FEED_API} from '../constants/APIs';
@@ -37,6 +38,12 @@ function receivePosts(category, entries) {
   };
 }
 
+function receiveStars(stars) {
+  return {
+    type: RECEIVE_STARS,
+    stars: stars,
+  };
+}
 
 function fetchPosts(category) {
   return dispatch => {
@@ -46,31 +53,21 @@ function fetchPosts(category) {
     
     return fetch(FEED_URL)
       .then(response => response.json())
-      .then(json => dispatch(merge_stars(category, json)));
-      
-      
-      getJSON('story.json').then(function(story) {
-    addHtmlToPage(story.heading);
-
-    // return story.chapterUrls.reduce(function(sequence, chapterUrl) {
-    //   // Once the last chapter's promise is done…
-    //   return sequence.then(function() {
-    //     // …fetch the next chapter
-    //     return getJSON(chapterUrl);
-    //   }).then(function(chapter) {
-    //     // and add it to the page
-    //     addHtmlToPage(chapter.html);
-    //   });
-    // }, Promise.resolve());  
+      // .then(json => dispatch(merge_stars(category, json)));
+      .then(json => {
+        let entries = json.responseData.feed.entries;
+        dispatch(receivePosts(category, entries));
+        entries.forEach(entry => {
+          fetch_star(entry).then(stars => {
+            dispatch(receiveStars(stars));
+          })
+        })
+      })
   };
 }
 
-function get_stars(entry) {
+function fetch_star(entry) {
   return new Promise(function(resolve, reject){
-    // fetch(`http://api.b.st-hatena.com/entry.count?url=${entry['link']}`)
-    // .then(response => response.json())
-    // .then(star => resolve(star))
-    
     fetch(`http://api.b.st-hatena.com/entry.count?url=${entry['link']}`)
     .then(response => {
       if (response.status >= 400) {
@@ -81,36 +78,27 @@ function get_stars(entry) {
     })
     .then(star => {
       console.log('=========');
-      console.log(JSON.stringify(entry));
-      console.log(star);
-      star != undefined ? resolve([entry, star]) : reject(new Error("Bad response from server")) ;
+      // console.log(JSON.stringify(entry));
+      // console.log(star);
+      star != undefined ? resolve([entry.link, star]) : reject(new Error("Bad response from server")) ;
     })
   });
 }
 
-function merge_stars(category, json) {
-  return dispatch => {
-    let entries = json.responseData.feed.entries;
-    console.log(entries);
-    var updated_entry;
-    for (var i = 0; i < entries.length; i++) {
-      get_stars(entries[i])
-      .then(v => {
-        // use 'map'
-          if (v[0]) {
-            let merged_entry = Object.assign(v[0], {
-              'star': v[1]
-            })
-            console.log(JSON.stringify(merged_entry));
-            console.log('=========');
-            updated_entry.push(merged_entry);
-          }
-        }).catch(function onRejected(error) {
-        console.error(error);
-      });
-    }
-    return update_stars(category, entries).then( v => dispatch(receivePosts(v[0], v[1])))
-  }
+function get_stars(entries) {
+  var updated_entries = [];
+  return Promise.all(
+    entries.forEach(entry => {
+      fetch_star(entry)
+      // return get_stars(entry).then(v => {
+      //   updated_entries.push(Object.assign(v[0], {
+      //     'star': v[1]
+      //   }));
+      // }).catch(function onRejected(error) {
+      //     console.error(error);
+      // });
+    })
+  );
 }
 
 function shouldFetchPosts(state, category) {

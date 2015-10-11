@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   SELECT_CATEGORY, INVALIDATE_HATEBU,
-  REQUEST_POSTS, RECEIVE_POSTS
+  REQUEST_POSTS, RECEIVE_POSTS, RECEIVE_STARS
 } from '../constants/ActionTypes';
 
 function selectedCategory(state = 'ALL', action) {
@@ -34,6 +34,13 @@ function posts(state = {
       didInvalidate: false,
       items: action.posts,
     });
+  case RECEIVE_STARS:
+    console.log(JSON.stringify(action.stars));
+    return Object.assign({}, state, {
+      isFetching: false,
+      didInvalidate: false,
+      items: action.stars,
+    });
   default:
     return state;
   }
@@ -43,6 +50,7 @@ function postsByHatebu(state = { }, action) {
   switch (action.type) {
   case INVALIDATE_HATEBU:
   case RECEIVE_POSTS:
+  case RECEIVE_STARS:
   case REQUEST_POSTS:
     return Object.assign({}, state, {
       [action.category]: posts(state[action.hatebu], action)

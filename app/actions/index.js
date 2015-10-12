@@ -4,7 +4,7 @@ import _ from 'lodash';
 import URL from 'url';
 import {
   SELECT_CATEGORY, INVALIDATE_CATEGORY,
-  REQUEST_POSTS, RECEIVE_POSTS 
+  REQUEST_POSTS, RECEIVE_POSTS, SET_POLLING,
 } from '../constants/ActionTypes';
 import {URLS} from '../constants/Categories';
 import {FEED_API} from '../constants/APIs';
@@ -93,9 +93,17 @@ export function fetchPostsIfNeeded(category) {
   };
 }
 
-export function openLink(url) {
+export function setPolling(category) {
   return (dispatch) => {
-    Shell.openExternal(url)
-    return;
-  }
+    setInterval(() => {
+      console.log("updating feed by polling");
+      dispatch(invalidateCategory(category));
+      dispatch(fetchPosts(category));
+    }, 1800000); // once every half hour
+  };
+}
+
+export function openLink(url) {
+  Shell.openExternal(url)
+  return;
 }

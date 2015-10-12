@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
   SELECT_CATEGORY, INVALIDATE_CATEGORY,
-  REQUEST_POSTS, RECEIVE_POSTS 
+  REQUEST_POSTS, RECEIVE_POSTS, SET_POLLING,
 } from '../constants/ActionTypes';
 
 function selectedCategory(state = 'GENERAL', action) {

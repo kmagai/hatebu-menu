@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { selectCategory, fetchPostsIfNeeded, invalidateCategory, openLink } from '../actions';
+import { selectCategory, fetchPostsIfNeeded, invalidateCategory, setPolling, openLink } from '../actions';
 import Picker from '../components/Picker';
 import Posts from '../components/Posts';
-import * as categories from '../constants/Categories';
 import {CATEGORIES} from '../constants/Categories';
 import URL from 'url';
 
@@ -19,6 +18,9 @@ class App extends Component {
   componentDidMount() {
     const { dispatch, selectedCategory } = this.props;
     dispatch(fetchPostsIfNeeded(selectedCategory));
+    Object.keys(CATEGORIES).forEach(key =>{
+      dispatch(setPolling(key));
+    })
   }
 
   componentWillReceiveProps(nextProps) {

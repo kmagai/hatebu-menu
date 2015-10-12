@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import {
-  SELECT_CATEGORY, INVALIDATE_HATEBU,
+  SELECT_CATEGORY, INVALIDATE_CATEGORY,
   REQUEST_POSTS, RECEIVE_POSTS 
 } from '../constants/ActionTypes';
 
@@ -19,7 +19,7 @@ function posts(state = {
   items: []
 }, action) {
   switch (action.type) {
-  case INVALIDATE_HATEBU:
+  case INVALIDATE_CATEGORY:
     return Object.assign({}, state, {
       didInvalidate: true
     });
@@ -41,7 +41,7 @@ function posts(state = {
 
 function postsByHatebu(state = { }, action) {
   switch (action.type) {
-  case INVALIDATE_HATEBU:
+  case INVALIDATE_CATEGORY:
   case RECEIVE_POSTS:
   case REQUEST_POSTS:
     return Object.assign({}, state, {

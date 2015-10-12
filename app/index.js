@@ -18,36 +18,7 @@ const opts = {
 }
 
 var menu = Menubar(opts)
-// Quit when all windows are closed.
-app.on('window-all-closed', function() {
-  // if (process.platform != 'darwin')
-    app.quit();
-});
-
-var mainWindow = null;
 
 menu.on('ready', function() {
   menu.tray.setToolTip('hatebu-menu')
-  
-  // server.on('terminate', function (e) {
-  //   server.destroy()
-  //   menu.app.terminate()
-  // })
-  
-  // server.on('open-url', function (req) {
-  //   var url = _.trim(req.body.url, '#')
-  //   Shell.openExternal(url)
-  // })
-  // 
-  // server.on('update-weather', function (req, next) {
-  //   weatherManager.fetch(app_config.cities, function (err, weathers) {
-  //     if (err) {
-  //       // TODO: need logger
-  //       return next(err, null)
-  //     }
-  //   })
-  //   next(null, weathers)
-  // })
-  
 });
-

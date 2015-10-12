@@ -3,7 +3,7 @@ import Shell from 'shell';
 import _ from 'lodash';
 import URL from 'url';
 import {
-  SELECT_CATEGORY, INVALIDATE_HATEBU,
+  SELECT_CATEGORY, INVALIDATE_CATEGORY,
   REQUEST_POSTS, RECEIVE_POSTS 
 } from '../constants/ActionTypes';
 import {URLS} from '../constants/Categories';
@@ -16,10 +16,10 @@ export function selectCategory(category) {
   };
 }
 
-export function invalidateHatebu(hatebu) {
+export function invalidateCategory(category) {
   return {
-    type: INVALIDATE_HATEBU,
-    hatebu
+    type: INVALIDATE_CATEGORY,
+    category
   };
 }
 
@@ -45,27 +45,22 @@ function fetchPosts(category) {
     let SELECTED_API = URLS[category];
     let FEED_URL = `${FEED_API}${SELECTED_API}`;
     
+    console.log(new Date().getTime());
+    console.log('---------ここから-----------');
     return fetch(FEED_URL)
       .then(response => response.json())
-      // .then(json => dispatch(merge_stars(category, json)));
       .then(json => {
+        console.log(new Date().getTime());
+        console.log('---------ここまで-----------');
         let entries = json.responseData.feed.entries;
-        _.map(entries, addHost);
         return Promise.all(
           _.map(entries, fetchStar)
         );
       })
       .then(merged_entries => {
-        console.log('------entries----------');
-        console.log(JSON.stringify(merged_entries));
-        console.log('---------entries-------');
         dispatch(receivePosts(category, merged_entries));
       })
   };
-}
-
-function addHost(entry) {
-  Object.assign(entry, {'host': URL.parse(entry.link).hostname});
 }
 
 function fetchStar(entry) {
@@ -73,16 +68,12 @@ function fetchStar(entry) {
     fetch(`http://api.b.st-hatena.com/entry.count?url=${entry['link']}`)
     .then(response => {
       if (response.status >= 400) {
-        console.log('awww.......error occurred');
         reject(new Error("Bad response from server"));
       }
       return response.json();
     })
     .then(star => {
-      console.log('----------------------');
-      console.log(JSON.stringify(star));
-      console.log('----------------------');
-      star != undefined ? resolve(Object.assign(entry, {'star': star})) : reject(new Error("Bad response from server")) ;
+      star != undefined ? resolve(Object.assign(entry, {'star': star})) : 0;
     })
   });
 }

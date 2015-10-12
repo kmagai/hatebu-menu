@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { selectCategory, fetchPostsIfNeeded, invalidateHatebu, openLink } from '../actions';
+import { selectCategory, fetchPostsIfNeeded, invalidateCategory, openLink } from '../actions';
 import Picker from '../components/Picker';
 import Posts from '../components/Posts';
 import * as categories from '../constants/Categories';
@@ -30,7 +30,9 @@ class App extends Component {
 
   handleChange(e, nextCategory) {
     e.preventDefault();
-    this.props.dispatch(selectCategory(nextCategory));
+    const { dispatch, selectedCategory } = this.props;
+    // dispatch(invalidateCategory(selectedCategory));
+    dispatch(selectCategory(nextCategory));
   }
 
   handleUrlClick(e, selectedUrl) {
@@ -46,7 +48,7 @@ class App extends Component {
     const { dispatch } = this.props;
     dispatch(openLink(bookmarkCommentURL));
   }
-
+  
   render() {
     const { selectedCategory, posts, isFetching } = this.props;
     return (

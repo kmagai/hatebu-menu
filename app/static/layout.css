@@ -4,12 +4,30 @@ body {
   /*font-family: mplus-1p-regular;*/
 }
 
-.hostname {
-  display: inline-block !important;
-  font-size: 12px !important;
-  font-style: italic !important;
+.table-view-cell {
+  padding: 18px 15px 18px 15px;
+  border-bottom: 1px solid #e6e6e6;
+}
+
+.table-view-cell>a:not(.btn) {
+  overflow: visible;
+  margin: -11px -15px -11px -15px;
+}
+
+.hostname, .comments {
+  display: inline-block;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.comments {
   color: #979797;
-  margin-top: .45rem !important;
+  margin-top: .8rem;
+}
+
+.badge {
+  font-size: 10px;
+  background: #f0f0f0;
 }
 
 .content {
@@ -30,12 +48,25 @@ body {
   color: #00A4DE !important;
 }
 
-/*.bar .segmented-control {
+.table-view {
+  border-top: none;
+  border-bottom: none;
+}
+
+.segmented-control {
   background: transparent;
-  border: 0;
-  border-radius: 0;
+  border: none;
   top: auto;
-}*/
+}
+
+.segmented-control .control-item {
+  background-color: #f2f2f2;
+  border-left: 1px solid #ddd;
+}
+
+.segmented-control .control-item.active {
+  background-color: white;
+}
 
 /* spinner */
 .spinner {

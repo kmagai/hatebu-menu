@@ -1,4 +1,6 @@
 import React, { PropTypes, Component } from 'react';
+import FontAwesome from 'react-fontawesome';
+import URL from 'url';
 
 export default class Posts extends Component {
   render () {
@@ -7,14 +9,16 @@ export default class Posts extends Component {
     return (
       <ul className="content table-view">
         {this.props.posts.map((post, i) =>
-          <li className="table-view-cell" key = {i}>
+          <li className="table-view-cell">
             <a href="#" className="clickable" onClick={e => onClick(e, post.link)}>
               {post.title}
             </a>
-            <a href="#" className="clickable" onClick={e => onClickStar(e, post.link)}>
+            <span className="hostname">{URL.parse(post.link).hostname}</span>
+            <br />
+            <span className="comments clickable" onClick={e => onClickStar(e, post.link)}>
+              <FontAwesome name="comments-o" />&nbsp;comments &nbsp;
               <span className="badge">{post.star}</span>
-            </a>
-            <span className="hostname">{post.host}</span>
+            </span>
           </li>
         )}
       </ul>

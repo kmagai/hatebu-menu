@@ -45,13 +45,9 @@ function fetchPosts(category) {
     let SELECTED_API = URLS[category];
     let FEED_URL = `${FEED_API}${SELECTED_API}`;
     
-    console.log(new Date().getTime());
-    console.log('---------ここから-----------');
     return fetch(FEED_URL)
       .then(response => response.json())
       .then(json => {
-        console.log(new Date().getTime());
-        console.log('---------ここまで-----------');
         let entries = json.responseData.feed.entries;
         return Promise.all(
           _.map(entries, fetchStar)

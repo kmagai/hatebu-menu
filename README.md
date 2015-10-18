@@ -1,2 +1,2 @@
 # hatebu-menu
-get hatena bookmark's hot-entries on your menu bar
+hatena bookmark's hot-entries on your menu bar

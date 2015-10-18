@@ -1,4 +1,5 @@
 import Menubar from 'menubar'
+import Path from 'path';
 var app = require('app');  // Module to control application life.
 // var BrowserWindow = require('browser-window');  // Module to create native browser window.
 // import BrowserWindow from 'browser-window'
@@ -13,7 +14,7 @@ var mainWindow = null;
 
 const opts = {
   dir: __dirname,
-  // icon: Path.join(__dirname, 'images', 'icon.png'),
+  icon: Path.join(__dirname, 'static', 'images', 'icon.png'),
   preloadWindow: true
 }
 

@@ -43,7 +43,7 @@ function fetchPosts(category) {
   return dispatch => {
     dispatch(requestPosts(category));
     let SELECTED_API = URLS[category];
-    let FEED_URL = `${FEED_API}${SELECTED_API}`;
+    let FEED_URL = `https://ajax.googleapis.com/ajax/services/feed/load?v=2.0&num=20&q=${SELECTED_API}`;
     
     return fetch(FEED_URL)
       .then(response => response.json())
